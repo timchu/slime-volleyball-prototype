@@ -21,6 +21,7 @@ function init() {
 // Suppressing up down left right.
 $(document).ready( function () {
   $(document).keydown(function(event){
+    console.log("Hi");
     if (event.keyCode >= 37 && event.keyCode <= 40) 
         event.preventDefault();
   });
