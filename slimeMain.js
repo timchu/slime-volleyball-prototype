@@ -2,8 +2,6 @@ var stage;
 var redCircle;
 var blueCircle;
 
-
-
 function init() {
     stage = new createjs.Stage("demoCanvas");
     redCircle = stage.addChild(makeCircleSlime("Red", 'up', 'down', 'left', 'right', 500));
