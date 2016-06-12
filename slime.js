@@ -1,4 +1,4 @@
-var floor = 300;
+var floor = 350;
 var slimeRadius = 60;
 var acceleration = 1.2;
 

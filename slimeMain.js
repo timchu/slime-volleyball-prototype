@@ -2,7 +2,7 @@ var stage;
 var redSlime;
 var blueSlime;
 var ball;
-var floor = 300;
+var floor = 350;
 var leftWallX = 0;
 var rightWallX = 800;
 
