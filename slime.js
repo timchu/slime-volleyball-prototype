@@ -1,13 +1,20 @@
 var floor = 300;
+var slimeRadius = 60;
+var acceleration = 1.2;
 
 class Slime extends createjs.Shape {
-  constructor(jump, down, left, right){
+  constructor(jumpKey, downKey, leftKey, rightKey, radius){
     super();
+    this.radius = radius;
+    this.xSpeed = 0;
+    this.ySpeed = 0;
     this.onFire = false;
-    this.jump = jump;
-    this.down = down;
-    this.left = left;
-    this.right = right;
+    this.jumpKey = jumpKey;
+    this.downKey = downKey;
+    this.leftKey = leftKey;
+    this.rightKey = rightKey;
+  }
+  changeColor() {
   }
   getOnFire () {
     return this.onFire;
@@ -15,51 +22,66 @@ class Slime extends createjs.Shape {
   setOnFire () {
     this.onFire = true;
   }
-  onGround() {
-    return this.y == floor;
+  getJumpKey () {
+    return this.jumpKey;
   }
-  getJump () {
-    return this.jump;
+  getDownKey () {
+    return this.downKey;
   }
-  getDown () {
-    return this.down;
+  getLeftKey () {
+    return this.leftKey;
   }
-  getLeft () {
-    return this.left;
-  }
-  getRight () {
-    return this.right;
-  }
-  update() {
-    if (key.isPressed(this.getJump())) {
-      if (this.onGround()){
-        jump(this)
-      }
-    }
-    if (key.isPressed(this.getDown())) {
-    }
-    if (key.isPressed(this.getLeft())) {
-        this.x -=30 
-    }
-    if (key.isPressed(this.getRight())) {
-        this.x +=30 
-    }
-    wrap(stage, this);
+  getRightKey () {
+    return this.rightKey;
   }
 }
 
-function makeCircleSlime (color, jump, down, left, right, xOffset = 0)  { 
-  var slime = new Slime(jump, down, left, right);
-  slime.graphics.beginFill(color).drawCircle(0, 0, 50);
+function updateSlimeSpeed(slime) {
+  if (slime.y < floor) {
+    slime.ySpeed += 1.2
+  }
+  else {
+    slime.ySpeed = 0;
+  }
+
+  slime.xSpeed = 0;
+  if (key.isPressed(slime.getJumpKey())) {
+    if (slime.y >= floor){
+      slime.ySpeed = -18;
+    }
+  }
+  if (key.isPressed(slime.getDownKey())) {
+    this.changeColor();
+  }
+  if (key.isPressed(slime.getLeftKey())) {
+    slime.xSpeed = -12;
+  }
+  if (key.isPressed(slime.getRightKey())) {
+    slime.xSpeed  = 12;
+  }
+}
+
+function updateSlime(leftWall, rightWall, slime){
+  updateSlimeSpeed(slime);
+  slime.x += slime.xSpeed;
+  slime.y += slime.ySpeed;
+  if (slime.y > floor) {
+    slime.y = floor;
+  }
+  if (slime.x < leftWall + slime.radius){
+    slime.x = leftWall + slime.radius;
+  }
+  if (slime.x > rightWall - slime.radius){
+    slime.x = rightWall - slime.radius;
+  }
+}
+
+function makeCircleSlime (color, jumpKey, downKey, leftKey, rightKey, xOffset = 0, radius = slimeRadius)  { 
+  var slime = new Slime(jumpKey, downKey, leftKey, rightKey, radius);
+  slime.graphics.beginFill(color).arc(0, 0, radius, Math.PI, 0);
   slime.x = 100 + xOffset;
   slime.y = floor;
-  return slime
-}
-
-function jump(stageObject){
-  createjs.Tween.get(stageObject, { loop: false })
-    .to({ y: 100 }, 500, createjs.Ease.getPowOut(2))
-    .to({ y: floor }, 500, createjs.Ease.getPowIn(2));
+  return slime;
 }
 
 function wrap (stage, stageObject) {
@@ -70,7 +92,7 @@ function wrap (stage, stageObject) {
     stageObject.x = stage.canvas.width;
   }
   if (stageObject.y < 0) {
-    stageObject.y = floor;
+    stageObject.y = floor - slimeRadius;
   }
 }
 
