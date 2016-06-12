@@ -5,6 +5,8 @@ var ball;
 var floor = 350;
 var leftWallX = 0;
 var rightWallX = 800;
+var netX = (leftWallX + rightWallX)/2;
+var netWidth = 4;
 
 // This is used in ball.js. This should all be cleaned up.
 var acceleration = 0.5;
@@ -21,8 +23,11 @@ function collideWalls(ball) {
 
 function init() {
     stage = new createjs.Stage("demoCanvas");
-    redSlime = stage.addChild(makeCircleSlime("Red", 'up', 'down', 'left', 'right', 500));
+    redSlime = stage.addChild(makeCircleSlime("Red", 'up', 'down', 'left', 'right', 600));
     blueSlime = stage.addChild(makeCircleSlime("DeepSkyBlue", 'w','s','a','d'));
+    var net = new createjs.Shape();
+    net.graphics.beginFill("Black").drawRect(netX, floor - 35, 4, 35);
+    stage.addChild(net);
     ball = stage.addChild(makeBall("Black", 100, 100));
     createjs.Ticker.setFPS(60);
     createjs.Ticker.addEventListener("tick", stage);
@@ -30,8 +35,8 @@ function init() {
 
     function tick(event) {
       collideWalls(ball);
-      updateSlime(leftWallX, rightWallX, redSlime);
-      updateSlime(leftWallX, rightWallX, blueSlime);
+      updateSlime(netX + netWidth, rightWallX, redSlime);
+      updateSlime(leftWallX, netX, blueSlime);
       updateBall(redSlime, blueSlime, ball);
     }
 }
