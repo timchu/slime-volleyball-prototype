@@ -50,7 +50,9 @@ function updateSlimeColors(slime) {
   if (key.isPressed(slime.getDownKey())) {
     slime.toggleOnFire();
     if (!slime.getOnFire()){
-      slime.graphics.beginFill(slime.color).arc(0, 0, slime.radius, Math.PI, 0);
+      // 0.05 is added to the radius so that the original slime's colors 
+      // completely cover the onFire slime's most recent color.
+      slime.graphics.beginFill(slime.color).arc(0, 0, slime.radius + 0.05, Math.PI, 0);
     }
   }
   if (slime.getOnFire()){
