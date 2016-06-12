@@ -1,9 +1,7 @@
 var stage;
 var redSlime;
 var blueSlime;
-var slimeRadius;
 var ball;
-var ballRadius = 10;
 var floor = 300;
 var leftWallX = 0;
 var rightWallX = 800;
@@ -12,11 +10,11 @@ var rightWallX = 800;
 var acceleration = 0.5;
 
 function collideWalls(ball) {
-  if (ball.y >=  floor - ballRadius) {
-    ball.y = floor - ballRadius
+  if (ball.y >=  floor - ball.radius) {
+    ball.y = floor - ball.radius
     ball.ySpeed = - ball.ySpeed;
   }
-  if (ball.x <= leftWallX + ballRadius || ball.x >= rightWallX - ballRadius) { 
+  if (ball.x <= leftWallX + ball.radius || ball.x >= rightWallX - ball.radius) { 
     ball.xSpeed = - ball.xSpeed;
   }
 }
@@ -41,7 +39,6 @@ function init() {
 // Suppressing up down left right.
 $(document).ready( function () {
   $(document).keydown(function(event){
-    console.log("Hi");
     if (event.keyCode >= 37 && event.keyCode <= 40) 
         event.preventDefault();
   });

@@ -1,7 +1,7 @@
 // acceleration is a global variable dependent on the stage.
 var ballGravity = 0.5;
 //  Radius should be a property of ball.
-var ballRadius = 50;
+var ballRadius = 14;
 var MAX_X_SPEED=15;
 var MAX_Y_SPEED=11;
 
@@ -44,7 +44,6 @@ function collide(slime, ball) {
     // Marler8997.
     var something = (dx * dXSpeed + dy * dYSpeed) / dist;
     if(something <= 0) {
-      console.log("in something magic");
       ball.xSpeed += slime.xSpeed - 1.92 * dx * something / dist;
       ball.ySpeed += slime.ySpeed + 1.92 * dy * something / dist;
     }
