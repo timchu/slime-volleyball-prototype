@@ -1,7 +1,7 @@
 // acceleration is a global variable dependent on the stage.
 var ballGravity = 0.5;
 //  Radius should be a property of ball.
-var ballRadius = 18;
+var ballRadius = 50;
 var MAX_X_SPEED=15;
 var MAX_Y_SPEED=11;
 
