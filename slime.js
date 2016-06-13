@@ -1,4 +1,3 @@
-var floor = 350;
 var slimeRadius = 60;
 var acceleration = 1.2;
 
@@ -116,16 +115,3 @@ function makeCircleSlime (color, jumpKey, downKey, leftKey, rightKey, xCoord = 2
   slime.y = floor;
   return slime;
 }
-
-function wrap (stage, stageObject) {
-  if (stageObject.x > stage.canvas.width) {
-    stageObject.x = 0;
-  }
-  if (stageObject.x < 0) {
-    stageObject.x = stage.canvas.width;
-  }
-  if (stageObject.y < 0) {
-    stageObject.y = floor - slimeRadius;
-  }
-}
-
