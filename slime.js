@@ -68,7 +68,7 @@ function flashColors(slime) {
   ++tickCountOnFire;
 }
 
-function updateSlimeSpeed(slime) {
+function updateSlimeSpeed(floor, slime) {
   if (slime.y < floor) {
     slime.ySpeed += 1.2
   }
@@ -93,8 +93,8 @@ function updateSlimeSpeed(slime) {
   }
 }
 
-function updateSlime(leftWall, rightWall, slime){
-  updateSlimeSpeed(slime);
+function updateSlime(floor, leftWall, rightWall, slime){
+  updateSlimeSpeed(floor, slime);
   slime.x += slime.xSpeed;
   slime.y += slime.ySpeed;
   if (slime.y > floor) {
@@ -109,7 +109,7 @@ function updateSlime(leftWall, rightWall, slime){
   updateSlimeColors(slime);
 }
 
-function makeCircleSlime (color, jumpKey, downKey, leftKey, rightKey, xCoord = 200, radius = slimeRadius)  { 
+function makeCircleSlime (color, jumpKey, downKey, leftKey, rightKey, xCoord = 200, radius = slimeRadius, floor = 400)  { 
   var slime = new Slime(jumpKey, downKey, leftKey, rightKey, radius, color);
   slime.graphics.beginFill(color).arc(0, 0, slime.radius, Math.PI, 0);
   slime.x = xCoord;

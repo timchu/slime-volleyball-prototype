@@ -2,7 +2,7 @@ var stage;
 var redSlime;
 var blueSlime;
 var ball;
-var floor = 350;
+var floor = 400;
 var leftWallX = 0;
 var rightWallX = 1000;
 var netX = (leftWallX + rightWallX)/2;
@@ -58,8 +58,8 @@ function init() {
     function tick(event) {
       collideWalls(ball);
       collideNet(ball);
-      updateSlime(netX + netWidth, rightWallX, redSlime);
-      updateSlime(leftWallX, netX, blueSlime);
+      updateSlime(floor, netX + netWidth, rightWallX, redSlime);
+      updateSlime(floor, leftWallX, netX, blueSlime);
       updateBall(redSlime, blueSlime, ball);
     }
 }
