@@ -109,10 +109,10 @@ function updateSlime(leftWall, rightWall, slime){
   updateSlimeColors(slime);
 }
 
-function makeCircleSlime (color, jumpKey, downKey, leftKey, rightKey, xOffset = 0, radius = slimeRadius)  { 
+function makeCircleSlime (color, jumpKey, downKey, leftKey, rightKey, xCoord = 200, radius = slimeRadius)  { 
   var slime = new Slime(jumpKey, downKey, leftKey, rightKey, radius, color);
   slime.graphics.beginFill(color).arc(0, 0, slime.radius, Math.PI, 0);
-  slime.x = 100 + xOffset;
+  slime.x = xCoord;
   slime.y = floor;
   return slime;
 }
