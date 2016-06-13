@@ -7,6 +7,7 @@ var leftWallX = 0;
 var rightWallX = 800;
 var netX = (leftWallX + rightWallX)/2;
 var netWidth = 4;
+var netHeight = 35;
 
 // This is used in ball.js. This should all be cleaned up.
 var acceleration = 0.5;
@@ -21,13 +22,33 @@ function collideWalls(ball) {
   }
 }
 
+function collideNet(ball) {
+  var fudgeFactor = 5 
+  if (ball.y >= floor - netHeight - ball.radius
+      && ball.x > netX - netWidth/2 - ball.radius && ball.x < netX + netWidth/2 + ball.radius) {
+    if (ball.y <= floor - netHeight - ball.radius + fudgeFactor && ball.ySpeed > 0) {
+      ball.ySpeed = -ball.ySpeed;
+      ball.y = floor - netHeight - ball.radius + fudgeFactor;
+    }
+    else {
+      ball.xSpeed = - ball.xSpeed;
+      if (ball.x > netX) {
+        ball.x = netX + netWidth/2 + ball.radius + fudgeFactor;
+      }
+      if (ball.x <= netX){
+        ball.x = netX - netWidth/2 - ball.radius - fudgeFactor;
+      }
+    }
+  }
+}
 function init() {
     stage = new createjs.Stage("demoCanvas");
     redSlime = stage.addChild(makeCircleSlime("Red", 'up', 'down', 'left', 'right', 600));
     blueSlime = stage.addChild(makeCircleSlime("DeepSkyBlue", 'w','s','a','d'));
     var net = new createjs.Shape();
-    net.graphics.beginFill("Black").drawRect(netX, floor - 35, 4, 35);
+    net.graphics.beginFill("Black").drawRect(netX - netWidth/2, floor - netHeight, netWidth, netHeight);
     stage.addChild(net);
+
     ball = stage.addChild(makeBall("Black", 100, 100));
     createjs.Ticker.setFPS(60);
     createjs.Ticker.addEventListener("tick", stage);
@@ -35,6 +56,7 @@ function init() {
 
     function tick(event) {
       collideWalls(ball);
+      collideNet(ball);
       updateSlime(netX + netWidth, rightWallX, redSlime);
       updateSlime(leftWallX, netX, blueSlime);
       updateBall(redSlime, blueSlime, ball);
