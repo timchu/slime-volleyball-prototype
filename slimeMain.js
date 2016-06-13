@@ -4,7 +4,7 @@ var blueSlime;
 var ball;
 var floor = 350;
 var leftWallX = 0;
-var rightWallX = 800;
+var rightWallX = 1000;
 var netX = (leftWallX + rightWallX)/2;
 var netWidth = 4;
 var netHeight = 35;
@@ -41,15 +41,16 @@ function collideNet(ball) {
     }
   }
 }
+var initSlimeX = 180;
 function init() {
     stage = new createjs.Stage("demoCanvas");
-    redSlime = stage.addChild(makeCircleSlime("Red", 'up', 'down', 'left', 'right', 600));
-    blueSlime = stage.addChild(makeCircleSlime("DeepSkyBlue", 'w','s','a','d'));
+    redSlime = stage.addChild(makeCircleSlime("Red", 'up', 'down', 'left', 'right', rightWallX - initSlimeX));
+    blueSlime = stage.addChild(makeCircleSlime("DeepSkyBlue", 'w','s','a','d', initSlimeX));
     var net = new createjs.Shape();
     net.graphics.beginFill("Black").drawRect(netX - netWidth/2, floor - netHeight, netWidth, netHeight);
     stage.addChild(net);
 
-    ball = stage.addChild(makeBall("Black", 100, 100));
+    ball = stage.addChild(makeBall("Black", initSlimeX, 100));
     createjs.Ticker.setFPS(60);
     createjs.Ticker.addEventListener("tick", stage);
     createjs.Ticker.addEventListener("tick", tick);
