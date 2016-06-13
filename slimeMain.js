@@ -4,7 +4,7 @@ var blueSlime;
 var ball;
 var floor = 400;
 var leftWallX = 0;
-var rightWallX = 1000;
+var rightWallX = 900;
 var net;
 var netX = (leftWallX + rightWallX)/2;
 var netWidth = 4;
