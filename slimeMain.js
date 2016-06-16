@@ -170,6 +170,12 @@ function init() {
         state = stateEnum.IN_GAME;
       }
     }
+    else if (state == stateEnum.END_GAME){
+      if (key.isPressed('enter')) {
+        resetGameFromBeginning();
+        state = stateEnum.IN_GAME;
+      }
+    }
   }
 }
 
