@@ -168,7 +168,7 @@ function init() {
       checkFloor(ball);
     }
     else if (state == stateEnum.AFTER_POINT){
-      if (tickCountAfterPoint == 90) {
+      if (tickCountAfterPoint == 60) {
         resetGameAfterPoint();
         tickCountAfterPoint = 0;
       }
