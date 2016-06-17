@@ -91,7 +91,7 @@ function initGame() {
   state = stateEnum.IN_GAME;
 
   background = new createjs.Shape();
-  background.graphics.beginFill("DeepSkyBlue").drawRect(leftWallX, 0, rightWallX, floor);
+  background.graphics.beginFill("Blue").drawRect(leftWallX, 0, rightWallX, floor);
   stage.addChild(background);
 
   slimeOne = stage.addChild(makeCircleSlime(slimeOneColor, 'w','s','a','d', initSlimeX));
