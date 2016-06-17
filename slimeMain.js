@@ -151,6 +151,7 @@ function init() {
   createjs.Ticker.addEventListener("tick", stage);
   createjs.Ticker.addEventListener("tick", tick);
 
+  var tickCountAfterPoint = 0;
   function tick(event) {
     if (state == stateEnum.IN_GAME) {
       if (key.isPressed('p')){
@@ -165,8 +166,12 @@ function init() {
       checkFloor(ball);
     }
     else if (state == stateEnum.AFTER_POINT){
-      if (key.getPressedKeyCodes() > 0) {
+      if (tickCountAfterPoint == 90) {
         resetGameAfterPoint();
+        tickCountAfterPoint = 0;
+      }
+      else {
+        tickCountAfterPoint += 1;
       }
     }
     else if (state == stateEnum.PAUSED){
