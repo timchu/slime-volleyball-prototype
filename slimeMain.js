@@ -1,6 +1,6 @@
 var stage;
-var redSlime;
-var blueSlime;
+var slimeOne;
+var slimeTwo;
 var ball;
 var floor = 400;
 var leftWallX = 0;
@@ -23,6 +23,7 @@ var stateEnum = {
   END_GAME: 3
 }
 
+var background;
 
 
 // var overScreen;
@@ -87,17 +88,18 @@ function initGame() {
   var initSlimeX = 180;
   state = stateEnum.IN_GAME;
 
-  redSlime = stage.addChild(makeCircleSlime("Red", 'up', 'down', 'left', 'right', rightWallX - initSlimeX));
-  blueSlime = stage.addChild(makeCircleSlime("DeepSkyBlue", 'w','s','a','d', initSlimeX));
+  background = new createjs.Shape();
+  background.graphics.beginFill("Blue").drawRect(leftWallX, 0, rightWallX, floor);
+  stage.addChild(background);
+
+  slimeOne = stage.addChild(makeCircleSlime("LawnGreen", 'up', 'down', 'left', 'right', rightWallX - initSlimeX));
+  slimeTwo = stage.addChild(makeCircleSlime("Red", 'w','s','a','d', initSlimeX));
   net = new createjs.Shape();
-  net.graphics.beginFill("Black").drawRect(netX - netWidth/2, floor - netHeight, netWidth, netHeight);
+  net.graphics.beginFill("White").drawRect(netX - netWidth/2, floor - netHeight, netWidth, netHeight);
   stage.addChild(net);
 
-  // Do not add overscreen yet.
-  overScreen = new createjs.Shape();
-  overScreen.graphics.beginFill("Green").drawRect(0, 0, 1000, 1000);
 
-  ball = stage.addChild(makeBall("Black", initSlimeX, 200));
+  ball = stage.addChild(makeBall("Yellow", initSlimeX, 200));
 
   scoreContainer = new createjs.Container();
   displayScore(playerOneScore, playerTwoScore);
@@ -106,9 +108,11 @@ function initGame() {
 
 function clearGame() {
   stage.removeChild(ball);
-  stage.removeChild(redSlime);
-  stage.removeChild(blueSlime);
+  stage.removeChild(slimeOne);
+  stage.removeChild(slimeTwo);
   stage.removeChild(scoreContainer);
+  stage.removeChild(net);
+  stage.removeChild(background);
 }
 
 function resetGameAfterPoint() {
@@ -131,10 +135,10 @@ function displayScore(a, b){
   for (var i = 0; i < a; ++i) {
     // hardcoded arbitrary constants.
     // makeBall should not be overloaded. This is lazy code.
-    scoreContainer.addChild(makeBall("DeepSkyBlue", 36 + 60*i, 60, 18));
+    scoreContainer.addChild(makeBall("Red", 36 + 60*i, 60, 18));
   }
   for (var i = 0; i < b; ++i) {
-    scoreContainer.addChild(makeBall("Red", rightWallX - 36 - 60*i, 60, 18));
+    scoreContainer.addChild(makeBall("LawnGreen", rightWallX - 36 - 60*i, 60, 18));
   }
   stage.addChild(scoreContainer);
 }
@@ -155,9 +159,9 @@ function init() {
       }
       collideWalls(ball);
       collideNet(ball);
-      updateSlime(floor, netX + netWidth, rightWallX, redSlime);
-      updateSlime(floor, leftWallX, netX, blueSlime);
-      updateBall(redSlime, blueSlime, ball);
+      updateSlime(floor, netX + netWidth, rightWallX, slimeOne);
+      updateSlime(floor, leftWallX, netX, slimeTwo);
+      updateBall(slimeOne, slimeTwo, ball);
       checkFloor(ball);
     }
     else if (state == stateEnum.AFTER_POINT){
