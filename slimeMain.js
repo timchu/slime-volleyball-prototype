@@ -26,6 +26,8 @@ var stateEnum = {
 var background;
 
 
+var slimeOneColor = "LightGreen"
+var slimeTwoColor = "Orange"
 // var overScreen;
 // // This is used in ball.js. This should all be cleaned up.
 // var acceleration = 0.5;
@@ -89,11 +91,11 @@ function initGame() {
   state = stateEnum.IN_GAME;
 
   background = new createjs.Shape();
-  background.graphics.beginFill("Blue").drawRect(leftWallX, 0, rightWallX, floor);
+  background.graphics.beginFill("DeepSkyBlue").drawRect(leftWallX, 0, rightWallX, floor);
   stage.addChild(background);
 
-  slimeOne = stage.addChild(makeCircleSlime("LawnGreen", 'up', 'down', 'left', 'right', rightWallX - initSlimeX));
-  slimeTwo = stage.addChild(makeCircleSlime("Red", 'w','s','a','d', initSlimeX));
+  slimeOne = stage.addChild(makeCircleSlime(slimeOneColor, 'w','s','a','d', initSlimeX));
+  slimeTwo = stage.addChild(makeCircleSlime(slimeTwoColor, 'up', 'down', 'left', 'right', rightWallX - initSlimeX));
   net = new createjs.Shape();
   net.graphics.beginFill("White").drawRect(netX - netWidth/2, floor - netHeight, netWidth, netHeight);
   stage.addChild(net);
@@ -135,10 +137,10 @@ function displayScore(a, b){
   for (var i = 0; i < a; ++i) {
     // hardcoded arbitrary constants.
     // makeBall should not be overloaded. This is lazy code.
-    scoreContainer.addChild(makeBall("Red", 36 + 60*i, 45, 18));
+    scoreContainer.addChild(makeBall(slimeOneColor, 36 + 60*i, 45, 18));
   }
   for (var i = 0; i < b; ++i) {
-    scoreContainer.addChild(makeBall("LawnGreen", rightWallX - 36 - 60*i, 45, 18));
+    scoreContainer.addChild(makeBall(slimeTwoColor, rightWallX - 36 - 60*i, 45, 18));
   }
   stage.addChild(scoreContainer);
 }
@@ -160,8 +162,8 @@ function init() {
       }
       collideWalls(ball);
       collideNet(ball);
-      updateSlime(floor, netX + netWidth, rightWallX, slimeOne);
-      updateSlime(floor, leftWallX, netX, slimeTwo);
+      updateSlime(floor, leftWallX, netX, slimeOne);
+      updateSlime(floor, netX + netWidth, rightWallX, slimeTwo);
       updateBall(slimeOne, slimeTwo, ball);
       checkFloor(ball);
     }
