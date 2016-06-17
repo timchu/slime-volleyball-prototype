@@ -135,10 +135,10 @@ function displayScore(a, b){
   for (var i = 0; i < a; ++i) {
     // hardcoded arbitrary constants.
     // makeBall should not be overloaded. This is lazy code.
-    scoreContainer.addChild(makeBall("Red", 36 + 60*i, 60, 18));
+    scoreContainer.addChild(makeBall("Red", 36 + 60*i, 45, 18));
   }
   for (var i = 0; i < b; ++i) {
-    scoreContainer.addChild(makeBall("LawnGreen", rightWallX - 36 - 60*i, 60, 18));
+    scoreContainer.addChild(makeBall("LawnGreen", rightWallX - 36 - 60*i, 45, 18));
   }
   stage.addChild(scoreContainer);
 }
