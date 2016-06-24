@@ -2,9 +2,9 @@ var stage;
 var slimeOne;
 var slimeTwo;
 var ball;
-var floor = 400;
+var floor = 500;
 var leftWallX = 0;
-var rightWallX = 900;
+var rightWallX = 1000;
 var net;
 var netX = (leftWallX + rightWallX)/2;
 var netWidth = 4;
@@ -23,6 +23,7 @@ var stateEnum = {
   END_GAME: 3
 }
 
+var lastWinner = "one"; // "one" or "two"
 var background;
 
 
@@ -44,13 +45,12 @@ function checkFloor(ball) {
     if (ball.x  <= netX) {
       playerOneScore -= 1;
       playerTwoScore += 1;
+      lastWinner = "two"
     }
     else {
       playerOneScore += 1;
       playerTwoScore -= 1;
-      if (playerTwoScore == 0){
-        state = stateEnum.END_GAME;
-      }
+      lastWinner = "one"
     }
     if (playerOneScore == 0){
       state = stateEnum.END_GAME;
@@ -84,8 +84,6 @@ function collideNet(ball) {
   }
 }
 
-
-
 function initGame() {
   var initSlimeX = 180;
   state = stateEnum.IN_GAME;
@@ -101,7 +99,12 @@ function initGame() {
   stage.addChild(net);
 
 
-  ball = stage.addChild(makeBall("Yellow", initSlimeX, 200));
+  if (lastWinner == "one") {
+    ball = stage.addChild(makeBall("Yellow", initSlimeX, 200));
+  }
+  else {
+    ball = stage.addChild(makeBall("Yellow", rightWallX  - initSlimeX, 200));
+  }
 
   scoreContainer = new createjs.Container();
   displayScore(playerOneScore, playerTwoScore);
@@ -148,7 +151,7 @@ function displayScore(a, b){
 function init() {
   stage = new createjs.Stage("demoCanvas");
   setDefaultScore();
-  initGame();
+  initGame("one");
   createjs.Ticker.setFPS(60);
   createjs.Ticker.addEventListener("tick", stage);
   createjs.Ticker.addEventListener("tick", tick);
