@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <title>Tim Chu's Home page</title>
+    <script> 
+      /* function grab() { 
+        document.getElementById('demo').innerHTML = Date()
+      } */
+      function addComment() {
+        var text = document.getElementById('commentBox').innerText
+        var t = document.createTextNode(text)
+        var listItem = document.createElement("LI")
+        listItem.appendChild(t)
+        document.getElementById('commentList').appendChild(lItem)
+      }
+    </script>
+    <style>
+      /* Use .projects for styling classes, #project for styling id. Id must be unique*/
+      #projects { 
+        font-size: 30px; font-weight: bold; font-family: helvetica,arial,sans-serif;
+     }
+    </style>
+  </head>
+
+  <body>
+    <h1>Hi! My name is Tim!</h1>
+    <p> Jacob Cole helped me build a site. </p>
+
+    <div><span id = "projects">My</span> Projects</div>
+      <ul> 
+        <li> Python Timer </li>
+        <li> Idea Stack </li>
+      </ul>
+
+    <div>Comments</div>
+      <ul id = "commentList">
+        <li>Hi Tim!</li>
+        <li>Hi Jacob!</li>
+      </ul>
+    <br />
+
+    <div contenteditable = "true" id = "commentBox" style=" border: 1px solid; "> I can edit this. </div>
+
+    <h1>My First JavaScript</h1>
+
+    <button onclick="addComment()">
+    Click me to display Date and Time.</button>
+
+    <p id="demo">demo</p>
+    <p id="grabme">Hi! Grab me.</p>
+
+  </body>
+</html>
