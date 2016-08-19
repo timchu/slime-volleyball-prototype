@@ -2,18 +2,21 @@ var slimeRadius = 60;
 var acceleration = 1.2;
 
 class Slime extends createjs.Shape {
-  constructor(jumpKey, downKey, leftKey, rightKey, radius, color){
+  constructor(x, y, jumpKey, downKey, leftKey, rightKey, radius, color){
     super();
-    // Can deprecate color later.
+    this.x = x;
+    this.y = y;
     this.color = color;
     this.radius = radius;
     this.xSpeed = 0;
     this.ySpeed = 0;
     this.onFire = false;
-    this.jumpKey = jumpKey;
-    this.downKey = downKey;
-    this.leftKey = leftKey;
-    this.rightKey = rightKey;
+    this.keys = {
+      jumpKey:  jumpKey,
+      downKey:  downKey,
+      leftKey:  leftKey,
+      rightKey:  rightKey
+    }
   }
   changeColor() {
   }
@@ -32,16 +35,19 @@ class Slime extends createjs.Shape {
     }
   }
   getJumpKey () {
-    return this.jumpKey;
+    return this.keys.jumpKey;
   }
   getDownKey () {
-    return this.downKey;
+    return this.keys.downKey;
   }
   getLeftKey () {
-    return this.leftKey;
+    return this.keys.leftKey;
   }
   getRightKey () {
-    return this.rightKey;
+    return this.keys.rightKey;
+  }
+  render () {
+    this.graphics.beginFill(this.color).arc(0, 0, this.radius, Math.PI, 0);
   }
 }
 
@@ -50,7 +56,7 @@ function updateSlimeColors(slime) {
     slime.toggleOnFire();
     if (!slime.getOnFire()){
       // 0.05 is added to the radius so that the original slime's colors 
-      // completely cover the onFire slime's most recent color.
+      // completely cover the onFire slime's last color.
       slime.graphics.beginFill(slime.color).arc(0, 0, slime.radius + 0.05, Math.PI, 0);
     }
   }
@@ -60,6 +66,10 @@ function updateSlimeColors(slime) {
 }
 
 var tickCountOnFire = 0;
+
+// Note: I'm not sure if this flashing colors causes N layers of slimes to be
+// rendered one on top of another. Knowing this would require understanding how
+// beginFill works.
 function flashColors(slime) {
   var colors = ["Red", "DeepSkyBlue", "Green", "Yellow", "Blue", "Black"];
   var colorIndex = Math.floor(tickCountOnFire / 3) % 6;
@@ -109,9 +119,7 @@ function updateSlime(floor, leftWall, rightWall, slime){
 }
 
 function makeCircleSlime (color, jumpKey, downKey, leftKey, rightKey, xCoord = 200, radius = slimeRadius, floor = 400)  { 
-  var slime = new Slime(jumpKey, downKey, leftKey, rightKey, radius, color);
-  slime.graphics.beginFill(color).arc(0, 0, slime.radius, Math.PI, 0);
-  slime.x = xCoord;
-  slime.y = floor;
+  var slime = new Slime(xCoord, floor, jumpKey, downKey, leftKey, rightKey, radius, color);
+  slime.render()
   return slime;
 }
