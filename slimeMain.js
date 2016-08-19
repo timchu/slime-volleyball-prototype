@@ -2,9 +2,9 @@ var stage;
 var slimeOne;
 var slimeTwo;
 var ball;
-var floor = 500;
+var floor = 400; //500 is the correct value. 400 is so it renders in weebly.
 var leftWallX = 0;
-var rightWallX = 1000;
+var rightWallX = 900; //1000 is the correct value. 900 is to render in weebly.
 var net;
 var netX = (leftWallX + rightWallX)/2;
 var netWidth = 4;
