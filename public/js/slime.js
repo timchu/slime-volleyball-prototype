@@ -1,3 +1,4 @@
+var socket = io();
 var slimeRadius = 60;
 var acceleration = 1.2;
 
@@ -88,6 +89,7 @@ function updateSlimeSpeed(floor, slime) {
   slime.xSpeed = 0;
   if (key.isPressed(slime.getJumpKey())) {
     if (slime.y >= floor){
+      socket.emit('slime movement', 'jump');
       slime.ySpeed = -18;
     }
   }
