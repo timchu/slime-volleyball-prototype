@@ -1,0 +1,23 @@
+{
+  "name": "slime-volleyball-prototype",
+  "version": "1.0.0",
+  "description": "Slime Volleyball",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.17.2",
+    "socket.io": "^4.4.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timchu/slime-volleyball-prototype.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/timchu/slime-volleyball-prototype/issues"
+  },
+  "homepage": "https://github.com/timchu/slime-volleyball-prototype#readme"
+}
