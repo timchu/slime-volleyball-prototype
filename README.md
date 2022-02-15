@@ -36,3 +36,11 @@ know how to do this.
 3. Both arrows and WASD controls only one slime right now (by design), partially due to issues 1
    and 2. I would fix this (can make it work on a single browser), but it
    seems easy to fix after eliminating issue number 1 and 2.
+
+Things I learned so far:
+
+1. Disentangling the "broadcast move" with the "receive mode + update
+   speed" code was important. This first gets called within the
+   client-side game loop. The second gets called within the socket
+   listener. This is probably not my final architecture choice, but it
+   did what I wanted to do for now.
