@@ -13,6 +13,7 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
   socket.on('slime movement', (msg) => {
     console.log("Slime jumped");
+    io.emit('slime movement', msg);
 //    socket.broadcast.emit('chat message', msg);
   });
 });

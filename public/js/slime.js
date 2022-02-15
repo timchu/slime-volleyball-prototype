@@ -78,34 +78,42 @@ function flashColors(slime) {
   ++tickCountOnFire;
 }
 
-function updateSlimeSpeed(floor, slime) {
-  if (slime.y < floor) {
-    slime.ySpeed += 1.2
-  }
-  else {
-    slime.ySpeed = 0;
-  }
-
-  slime.xSpeed = 0;
+function broadcastSlimeMoves(floor, slime) {
   if (key.isPressed(slime.getJumpKey())) {
     if (slime.y >= floor){
       socket.emit('slime movement', 'jump');
-      slime.ySpeed = -18;
     }
   }
   if (key.isPressed(slime.getLeftKey())) {
-    slime.xSpeed = -12;
+      socket.emit('slime movement', 'left');
   }
   if (key.isPressed(slime.getRightKey())) {
-    slime.xSpeed  = 12;
+      socket.emit('slime movement', 'right');
   }
   if (slime.getOnFire()) {
+      socket.emit('slime movement', 'onfire');
+  }
+}
+function updateSlimeSpeed(floor, slime, move) {
+
+  slime.xSpeed = 0;
+  if (move == 'jump') {
+    if (slime.y >= floor){
+      slime.ySpeed = -18;
+    }
+  }
+  if (move == 'left') {
+    slime.xSpeed = -12;
+  }
+  if (move == 'right') {
+    slime.xSpeed  = 12;
+  }
+  if (move == 'onfire') {
     slime.xSpeed *= 2;
   }
 }
 
-function updateSlime(floor, leftWall, rightWall, slime){
-  updateSlimeSpeed(floor, slime);
+function keepSlimeInBounds(floor, leftWall, rightWall, slime){
   slime.x += slime.xSpeed;
   slime.y += slime.ySpeed;
   if (slime.y > floor) {
@@ -118,6 +126,13 @@ function updateSlime(floor, leftWall, rightWall, slime){
     slime.x = rightWall - slime.radius;
   }
   updateSlimeColors(slime);
+  slime.xSpeed = 0;
+  if (slime.y < floor) {
+    slime.ySpeed += 1.2
+  }
+  else {
+    slime.ySpeed = 0;
+  }
 }
 
 function makeCircleSlime (color, jumpKey, downKey, leftKey, rightKey, xCoord = 200, radius = slimeRadius, floor = 400)  { 
