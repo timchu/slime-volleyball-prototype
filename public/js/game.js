@@ -9,6 +9,8 @@ var net;
 var netX = (leftWallX + rightWallX)/2;
 var netWidth = 4;
 var netHeight = 35;
+var playerNum = -1;
+var playerNumSet = false;
 
 var scoreContainer;
 var playerOneScore;
@@ -149,10 +151,25 @@ function displayScore(a, b){
 }
 
 function init() {
-  a = 10
+
+  // Set which player you are.
+  socket.on('player_id', function(player_id) {
+    console.log("Player num initiated");
+    if(!playerNumSet) {
+      playerNum = player_id;
+    }
+    playerNumSet = true;
+    console.log(playerNum)
+  });
+
   socket.on('slime movement', function(move) {
     console.log("Move received");
-    updateSlimeSpeed(floor, slimeOne, move)
+    if (playerNum == 1){
+      updateSlimeSpeed(floor, slimeOne, move)
+    }
+    else if (playerNum == 2){
+      updateSlimeSpeed(floor, slimeTwo, move)
+    }
   });
 
   stage = new createjs.Stage("demoCanvas");
