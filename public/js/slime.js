@@ -78,20 +78,31 @@ function flashColors(slime) {
   ++tickCountOnFire;
 }
 
-function broadcastSlimeMoves(floor, slime) {
+function broadcastSlimeMoves(floor, slime, id, playerNum) {
+  movement = {
+    move: '',
+    id: id
+  }
+  if (playerNum != id){
+    return;
+  }
   if (key.isPressed(slime.getJumpKey())) {
     if (slime.y >= floor){
-      socket.emit('slime movement', 'jump');
+      movement.move = 'jump'
+      socket.emit('slime movement', movement);
     }
   }
   if (key.isPressed(slime.getLeftKey())) {
-      socket.emit('slime movement', 'left');
+      movement.move = 'left'
+      socket.emit('slime movement', movement);
   }
   if (key.isPressed(slime.getRightKey())) {
-      socket.emit('slime movement', 'right');
+      movement.move = 'right'
+      socket.emit('slime movement', movement);
   }
   if (slime.getOnFire()) {
-      socket.emit('slime movement', 'onfire');
+      movement.move = 'onfire'
+      socket.emit('slime movement', movement);
   }
 }
 function updateSlimeSpeed(floor, slime, move) {

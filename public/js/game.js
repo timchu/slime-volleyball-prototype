@@ -162,12 +162,16 @@ function init() {
     console.log(playerNum)
   });
 
-  socket.on('slime movement', function(move) {
+  socket.on('slime movement', function(movement) {
     console.log("Move received");
-    if (playerNum == 1){
+    move = movement.move
+    player_id_of_move = movement.id
+    console.log(player_id_of_move)
+    console.log(move)
+    if (player_id_of_move == 1){
       updateSlimeSpeed(floor, slimeOne, move)
     }
-    else if (playerNum == 2){
+    else if (player_id_of_move == 2){
       updateSlimeSpeed(floor, slimeTwo, move)
     }
   });
@@ -188,9 +192,9 @@ function init() {
       }
       collideWalls(ball);
       collideNet(ball);
-      broadcastSlimeMoves(floor, slimeOne)
+      broadcastSlimeMoves(floor, slimeOne, 1, playerNum)
       keepSlimeInBounds(floor, leftWallX, netX, slimeOne);
-      broadcastSlimeMoves(floor, slimeTwo)
+      broadcastSlimeMoves(floor, slimeTwo, 2, playerNum)
       keepSlimeInBounds(floor, netX + netWidth, rightWallX, slimeTwo);
       updateBall(slimeOne, slimeTwo, ball);
       checkFloor(ball);

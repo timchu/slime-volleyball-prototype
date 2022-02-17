@@ -49,19 +49,10 @@ io.on('connection', (socket) => {
     x: 0,
     y: 0,
   }
-  console.log("Socket ID serverside");
-  console.log(socket.id);
-  console.log("Players");
-  console.log(players);
-
-  console.log("Players length");
-  console.log(Object.keys(players));
-  console.log(player_ids(players));
-  console.log(player_length(players));
 
   io.emit('player_id', player_id);
   socket.on('slime movement', (msg) => {
-    console.log("Slime jumped");
+    console.log("Slime moved");
     io.emit('slime movement', msg);
   });
   socket.on('disconnect', function () {
