@@ -13,22 +13,13 @@ works locally, but remotely there seems to be an issue with the createJs
 and easeljs. I conjecture that this is due to easeljs being imported the
 usual way (via website) instead of via node? Not sure about this.
 
-2. 
+2.  I am working on making the server as the source of truth for slime
+    and ball positions.
 
-The updates are all done client side. The server only transmits the
-movements.
-This leads to problems when one player refreshes or joins at a
-different time than. Then the ball and stage get out of whack. I don't
-have experience moving all the data server side.
 
-I'm also not ssure whether to move all the data server side. I think
-that helps but I really don't know.
 
-Two less-immediate issues:
-
-1. I don't know how to make a new player instantiate a new slime (capped
-   at 2). Each player should only control their own slimes, and I don't
-know how to do this.
+Some remaining issues:
+1. See 2 in the above.
 
 2. I'd like to make a different link per game. I don't know how to do
    this.
@@ -44,3 +35,11 @@ Things I learned so far:
    client-side game loop. The second gets called within the socket
    listener. This is probably not my final architecture choice, but it
    did what I wanted to do for now.
+
+2. I got each slime to be controlled by a different player. This is
+   still janky, basically, when you join, you are player number
+   (smallest unclaimed player num), and the players 1 and 2 control the
+   left and right slimes accordingly. This was accompilshed through a
+   bit of thinking and looking at multiplayer game from Phaser. The
+   server will eventually coordinate state, there's still some weird
+   de-syncing I don't get.
