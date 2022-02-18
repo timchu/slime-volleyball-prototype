@@ -51,15 +51,15 @@ function receiveSlimeCoords(){
 // var acceleration = 0.5;
 
 function collideWalls(ball) {
-  if (ball.clientX <= leftWallX + ball.radius || ball.clientX >= rightWallX - ball.radius) { 
+  if (ball.x <= leftWallX + ball.radius || ball.x >= rightWallX - ball.radius) { 
     ball.xSpeed = - ball.xSpeed;
   }
 }
 
 // TODO: make this defeat the slime.
 function checkFloor(ball) {
-  if (ball.clientY >=  floor - ball.radius) {
-    if (ball.clientX  <= netX) {
+  if (ball.y >=  floor - ball.radius) {
+    if (ball.x  <= netX) {
       playerOneScore -= 1;
       playerTwoScore += 1;
       lastWinner = "two"
@@ -83,19 +83,19 @@ function checkFloor(ball) {
 
 function collideNet(ball) {
   var fudgeFactor = 5 
-  if (ball.clientY >= floor - netHeight - ball.radius
-      && ball.clientX > netX - netWidth/2 - ball.radius && ball.clientX < netX + netWidth/2 + ball.radius) {
-    if (ball.clientY <= floor - netHeight - ball.radius + fudgeFactor && ball.ySpeed > 0) {
+  if (ball.y >= floor - netHeight - ball.radius
+      && ball.x > netX - netWidth/2 - ball.radius && ball.x < netX + netWidth/2 + ball.radius) {
+    if (ball.y <= floor - netHeight - ball.radius + fudgeFactor && ball.ySpeed > 0) {
       ball.ySpeed = -ball.ySpeed;
-      ball.clientY = floor - netHeight - ball.radius + fudgeFactor;
+      ball.y = floor - netHeight - ball.radius + fudgeFactor;
     }
     else {
       ball.xSpeed = - ball.xSpeed;
-      if (ball.clientX > netX) {
-        ball.clientX = netX + netWidth/2 + ball.radius + fudgeFactor;
+      if (ball.x > netX) {
+        ball.x = netX + netWidth/2 + ball.radius + fudgeFactor;
       }
-      if (ball.clientX <= netX){
-        ball.clientX = netX - netWidth/2 - ball.radius - fudgeFactor;
+      if (ball.x <= netX){
+        ball.x = netX - netWidth/2 - ball.radius - fudgeFactor;
       }
     }
   }

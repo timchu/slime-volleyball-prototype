@@ -35,14 +35,14 @@ function makeBall (color, x, y, radius = ballRadius) {
 }
 
 function collide(slime, ball) {
-  var dx = ball.clientX - slime.clientX;
-  var dy = slime.clientY - ball.clientY; /// lower object has higher y coordinate
+  var dx = ball.x - slime.x;
+  var dy = slime.y - ball.y; /// lower object has higher y coordinate
   var dXSpeed = ball.xSpeed - slime.xSpeed;
   var dYSpeed = slime.ySpeed - ball.ySpeed;
   var dist = Math.sqrt (dx * dx + dy * dy);
   if (dy > 0 && dist < slime.radius + ball.radius) {
-    ball.clientX = slime.clientX + (slime.radius+ball.radius) * dx / dist;
-    ball.clientY = slime.clientY - (slime.radius+ball.radius) * dy / dist;
+    ball.clientX = slime.x + (slime.radius+ball.radius) * dx / dist;
+    ball.clientY = slime.y - (slime.radius+ball.radius) * dy / dist;
 
     // I have no idea how to interpret this part. This is cribbed from
     // Marler8997.
