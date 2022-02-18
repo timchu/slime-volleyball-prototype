@@ -31,6 +31,21 @@ var background;
 
 var slimeOneColor = "LightGreen"
 var slimeTwoColor = "Orange"
+function receiveSlimeCoords(){
+  socket.on('slime coordinates', (slimeCoords) => {
+    x = slimeCoords.x;
+    y = slimeCoords.y;
+    slime_id = slimeCoords.slime_id;
+    if (slime_id == 1){
+      slimeOne.x = x;
+      slimeOne.y = y;
+    }
+    else if (slime_id == 2){
+      slimeTwo.x = x;
+      slimeTwo.y = y;
+    }
+  });
+}
 // var overScreen;
 // // This is used in ball.js. This should all be cleaned up.
 // var acceleration = 0.5;
@@ -161,20 +176,21 @@ function init() {
     playerNumSet = true;
     console.log(playerNum)
   });
+  receiveSlimeCoords();
 
-  socket.on('slime movement', function(movement) {
-    console.log("Move received");
-    move = movement.move
-    player_id_of_move = movement.id
-    console.log(player_id_of_move)
-    console.log(move)
-    if (player_id_of_move == 1){
-      updateSlimeSpeed(floor, slimeOne, move)
-    }
-    else if (player_id_of_move == 2){
-      updateSlimeSpeed(floor, slimeTwo, move)
-    }
-  });
+//  socket.on('slime movement', function(movement) {
+//    console.log("Move received");
+//    move = movement.move
+//    player_id_of_move = movement.id
+//    console.log(player_id_of_move)
+//    console.log(move)
+//    if (player_id_of_move == 1){
+//      updateSlimeSpeed(floor, slimeOne, move);
+//    }
+//    else if (player_id_of_move == 2){
+//      updateSlimeSpeed(floor, slimeTwo, move);
+//    }
+//  });
 
   stage = new createjs.Stage("demoCanvas");
   setDefaultScore();
@@ -192,10 +208,17 @@ function init() {
       }
       collideWalls(ball);
       collideNet(ball);
-      broadcastSlimeMoves(floor, slimeOne, 1, playerNum)
+      updateSlimeSpeed(floor, slimeOne, 1, playerNum);
       keepSlimeInBounds(floor, leftWallX, netX, slimeOne);
-      broadcastSlimeMoves(floor, slimeTwo, 2, playerNum)
+      updateSlimeSpeed(floor, slimeTwo, 2, playerNum);
       keepSlimeInBounds(floor, netX + netWidth, rightWallX, slimeTwo);
+      if (playerNum == 1) {
+        console.log("Broadcasting slime coords (prefix)")
+        broadcastSlimeCoords(floor, slimeOne, 1)
+      }
+      else if (playerNum == 2) {
+        broadcastSlimeCoords(floor, slimeTwo, 2)
+      }
       updateBall(slimeOne, slimeTwo, ball);
       checkFloor(ball);
     }

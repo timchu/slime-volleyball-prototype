@@ -5,11 +5,7 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
 
-var ball = {
-  x: 0,
-  y: 0,
-}
-
+// Functions supporting player id assignment.
 function player_length(players) { 
   return Object.keys(players).length;
 }
@@ -36,6 +32,13 @@ function first_missing_id(players){
   return player_id_ls.length + 1;
 }
 
+// Sockets and stuff.
+
+
+var ball = {
+  x: 0,
+  y: 0,
+}
 var players = {};
 app.use(express.static(__dirname + '/public'));
 app.get('/', (req, res) => {
@@ -51,9 +54,14 @@ io.on('connection', (socket) => {
   }
 
   io.emit('player_id', player_id);
-  socket.on('slime movement', (msg) => {
-    console.log("Slime moved");
-    io.emit('slime movement', msg);
+  socket.on('slime coordinates', (slimeCoords) => {
+    slime_id = slimeCoords.slime_id;
+    x = slimeCoords.x;
+    y = slimeCoords.y;
+    console.log("Slime coords changed");
+    players[socket.id].x = x;
+    players[socket.id].y = y;
+    io.emit('slime coordinates', slimeCoords);
   });
   socket.on('disconnect', function () {
     console.log('user disconnected');
