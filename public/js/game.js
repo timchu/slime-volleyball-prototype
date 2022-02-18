@@ -51,15 +51,15 @@ function receiveSlimeCoords(){
 // var acceleration = 0.5;
 
 function collideWalls(ball) {
-  if (ball.x <= leftWallX + ball.radius || ball.x >= rightWallX - ball.radius) { 
+  if (ball.clientX <= leftWallX + ball.radius || ball.clientX >= rightWallX - ball.radius) { 
     ball.xSpeed = - ball.xSpeed;
   }
 }
 
 // TODO: make this defeat the slime.
 function checkFloor(ball) {
-  if (ball.y >=  floor - ball.radius) {
-    if (ball.x  <= netX) {
+  if (ball.clientY >=  floor - ball.radius) {
+    if (ball.clientX  <= netX) {
       playerOneScore -= 1;
       playerTwoScore += 1;
       lastWinner = "two"
@@ -83,19 +83,19 @@ function checkFloor(ball) {
 
 function collideNet(ball) {
   var fudgeFactor = 5 
-  if (ball.y >= floor - netHeight - ball.radius
-      && ball.x > netX - netWidth/2 - ball.radius && ball.x < netX + netWidth/2 + ball.radius) {
-    if (ball.y <= floor - netHeight - ball.radius + fudgeFactor && ball.ySpeed > 0) {
+  if (ball.clientY >= floor - netHeight - ball.radius
+      && ball.clientX > netX - netWidth/2 - ball.radius && ball.clientX < netX + netWidth/2 + ball.radius) {
+    if (ball.clientY <= floor - netHeight - ball.radius + fudgeFactor && ball.ySpeed > 0) {
       ball.ySpeed = -ball.ySpeed;
-      ball.y = floor - netHeight - ball.radius + fudgeFactor;
+      ball.clientY = floor - netHeight - ball.radius + fudgeFactor;
     }
     else {
       ball.xSpeed = - ball.xSpeed;
-      if (ball.x > netX) {
-        ball.x = netX + netWidth/2 + ball.radius + fudgeFactor;
+      if (ball.clientX > netX) {
+        ball.clientX = netX + netWidth/2 + ball.radius + fudgeFactor;
       }
-      if (ball.x <= netX){
-        ball.x = netX - netWidth/2 - ball.radius - fudgeFactor;
+      if (ball.clientX <= netX){
+        ball.clientX = netX - netWidth/2 - ball.radius - fudgeFactor;
       }
     }
   }
@@ -177,6 +177,7 @@ function init() {
     console.log(playerNum)
   });
   receiveSlimeCoords();
+  receiveBallCoords(playerNum);
 
 //  socket.on('slime movement', function(movement) {
 //    console.log("Move received");
@@ -221,6 +222,11 @@ function init() {
       }
       updateBall(slimeOne, slimeTwo, ball);
       checkFloor(ball);
+      // playerOne broadcasts true state about ball.
+      if (playerNum == 1){
+        console.log("Broadcast ball coords");
+        broadcastBallCoords(ball);
+      }
     }
     else if (state == stateEnum.AFTER_POINT){
       if (tickCountAfterPoint == 60) {

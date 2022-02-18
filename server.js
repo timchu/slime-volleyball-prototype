@@ -53,16 +53,25 @@ io.on('connection', (socket) => {
     y: 0,
   }
 
+
+  socket.on('ball coordinates', (ballCoords) => {
+    ball.x = ballCoords.x;
+    ball.y = ballCoords.y;
+    console.log("Ball coords changed");
+    io.emit('ball coordinates', ballCoords);
+  });
+
   io.emit('player_id', player_id);
   socket.on('slime coordinates', (slimeCoords) => {
     slime_id = slimeCoords.slime_id;
     x = slimeCoords.x;
     y = slimeCoords.y;
-    console.log("Slime coords changed");
+//    console.log("Slime coords changed");
     players[socket.id].x = x;
     players[socket.id].y = y;
     io.emit('slime coordinates', slimeCoords);
   });
+
   socket.on('disconnect', function () {
     console.log('user disconnected');
     delete players[socket.id];
